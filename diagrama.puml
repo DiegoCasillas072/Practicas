@@ -1,0 +1,102 @@
+
+class Mario {
+    -vida[2]
+    + brincar()
+    +encojer ()
+    +agrandar ()
+    }
+class Jugador{
+    -Oportunidad[3]
+}
+class Juego 
+class Mapa
+class Nivel {
+    +cambiar():Mapa
+    }
+class Enemigo{
+    +quitar():Vida
+    +quitar():Oportunidad
+}
+class vida{
+    +quitar
+    +poner(Hongo)
+}
+class Aliado
+class Plataforma
+class Caja{
+    -Objeto
+    +golpear()
+    +dar():Objeto
+    
+    }  
+class Objeto  
+class Moneda {
+    +juntar()
+    }
+class Tuberia {
+    +entrar()
+    }
+class Ladrillos{
+    -Moneda
+    +golpear():Moneda
+}
+class Nube 
+class Yoshi {
+    +montar()
+    }
+class Peach 
+class Luigi
+class Toad
+class Blooper
+class Koopa {
+    +aplastar()
+    +patear()
+    }
+class Goomba {
+    +aplastar()
+    }
+class Browser
+class Hongo 
+class Flor
+class Plantapiraña
+class Castillo{
+    +finalizar(Mario):Mapa
+}
+class Oportunidad
+
+
+
+
+Caja *-- "1" Objeto
+Juego "1" *-- "1" Jugador
+Jugador  "1" *-- "3" Oportunidad
+Juego "1" *-- "*" Nivel
+Nivel "1" *-- "1" Mapa
+Mapa "1" *-- "*" Plataforma
+Mapa "1" *-- "1" Castillo
+Mapa "1" *-- "*" Enemigo
+Mapa "1" *-- "*" Aliado
+Jugador "1" o-- "1" Mario
+Mario "1" o-- "*" Enemigo
+Mario "1" o-- "*" Aliado
+Mario"1" *-- "2" vida
+Mario "1" o-- "*" Plataforma
+Mario "1" o-- "1" Castillo
+Plataforma <|-- Caja
+Plataforma <|-- Nube
+Plataforma <|-- Ladrillos
+Plataforma <|-- Tuberia 
+Enemigo <|-- Goomba
+Enemigo <|-- Koopa
+Enemigo <|-- Blooper
+Enemigo <|-- Browser
+Enemigo <|-- Plantapiraña
+Aliado <|-- Luigi
+Aliado <|-- Peach
+Aliado <|-- Yoshi
+Aliado <|-- Toad
+Objeto "1" *-- "*" Moneda 
+Objeto "1" *-- "1" Hongo
+Objeto "1" *-- "1" Flor
+Blooper "1" o-- "1" Nube
+Plantapiraña "1" o-- "1" Tuberia
