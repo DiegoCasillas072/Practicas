@@ -21,5 +21,23 @@ int main(int argc, char const *argv[]) {
     //Cerrar el archivo de salida 
     archivoSalida.close();
 
+
+
+
+    ifstream archivoEntrada;
+    string linea;
+    //abrir el archivo de entrada
+    if (!archivoEntrada){
+        cerr << "Error al abrir un archivo de entrada." << endl;
+        return 1;
+    }
+    //leer un archivo de entrada
+    while(getline(archivoEntrada, linea)) {
+        cout << linea << endl;
+
+    }
+    //cerrar archivo de entrada
+    archivoEntrada.close();
+
     return 0;
 }
