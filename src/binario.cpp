@@ -9,7 +9,8 @@ struct Persona
     int edad;
 };
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
     ofstream archivoSalida;
 
     // Abrir el archivo de salida
@@ -28,9 +29,26 @@ int main(int argc, char const *argv[]) {
 
     // Cerrar el archivo de salida
     archivoSalida.close();
-    
 
-  
+    //--------------------------------------------------------------------------------
+    ifstream archivoEntrada;
+    Persona p;
+
+    // abrir el archivo de entrada
+
+    archivoEntrada.open("archivo_salida.bin", ios::binary);
+    if (!archivoEntrada)
+    {
+        cerr << "Error al abrir el archivo de entrada." << endl;
+        return 1;
+    }
+    // Leer archivo de entrada
+    while (archivoEntrada.read((char *)(&p), sizeof(Persona)))
+    {
+        cout << "Nombre: " << p.nombre << ", Edad: " << p.edad << endl;
+    }
+    // Cerrar el archivo de salida
+    archivoEntrada.close();
 
     return 0;
 }
