@@ -1,18 +1,20 @@
 #include <vector>
+#include <list>
+#include <set>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <sstream>
-
 using namespace std;
 
 enum Columnas{
     INDICE,
-    NOMBNRE,
+    NOMBRE,
+    NUMERO,
     TIPO,
     ETAPA,
     ANTECESOR,
-    ANTECESOR_NO
+    ANTESESOR_NO
 };
 
 enum TipoPokemon{
@@ -22,92 +24,86 @@ enum TipoPokemon{
     ELECTRICIDAD,
     VENENO
 };
-
 class Pokemon{
-    private:
-        string nombre;
-        set<TipoPokemon> tipo;
-        int nivel;
-
-    public:
-        Pokemon(string nombre, set<TipoPokemon> tipo, int nnivel){
-            this->nombre = nombre;
-            this->tipo = tipo;
-            this->nivel = nivel;
-        }
-        string GetNombre(){
-            return this->nombre;
-        }
-
+private:
+    string nombre;
+    set<TipoPokemon> tipos;
+    int nivel;
+public:
+    Pokemon(string nombre, set<TipoPokemon> tipos, int nivel){
+        this->nombre = nombre;
+        this->tipos = tipos;
+        this->nivel = nivel;
+    }
+    string GetNombre(){
+        return this->nombre;
+    }
 };
 
-int main(int argc, char const *argv[]){
+int main(int argc, char const *argv[])
+{
+    // Arreglos clasicos
+    string frases[10]; // <--- No se pude modificar en tiempo de ejecucion
+    frases[0] = "Frase 1";
+    frases[1] = "Frase 2";
 
-//arreglos clasicos
-    string frases[10];
-    frases[0] = "frase 1";
-    frases[1] = "frase 2";
+    // Vector libreria estandar
+    vector<string> vFrases; // <--- Se pueden agregar mas en tiempo de ejecucion
+    vFrases.push_back("Primera Frase");
+    vFrases.push_back("Segunda Frase");
+    vFrases.push_back("Tercera Frase");
+    vFrases.push_back("Cuarta Frase");
 
-// vector de libreria estandar
-    vector <string> vFrases; // <--- se pueden agregar mas en tiempo de ejecucion
-    vFrases.push_back("Primera frase");
-    vFrases.push_back("Segunda frase");
-    vFrases.push_back("Tercera frase");
-    vFrases.push_back("Cuarta frase");
-
-    vector<int> vEnteros; // remplazar tipo entre <> para cambiar el valor del vector
+    vector<int> vEnteros;  // <--- Remplazar tipo entre <> para cambiar el valor del vector
     vEnteros.push_back(3);
     vEnteros.push_back(5);
     vEnteros.push_back(1);
     vEnteros.push_back(9);
 
-    vector<Pokemon> pokedex;
-    pokedex.push_back(
-        Pokemon(
-            "Bulbasaur", {
-                TipoPokemon::PLANTA,1,
-
-                TipoPokemon::AGUA,1
-            },
-        )
-    );
-   
-
     fstream pokeCSV("assets/pokedex.csv");
     if(!pokeCSV){
-        cerr << "Error leyendo archivo del pokedex"<<endl
+        cerr << "Error leyendo archivo del pokedex"<<endl;
         return EXIT_FAILURE;
     }
 
+    // Cargar pokemones desde el archivo
     string linea;
+    vector<Pokemon> pokedex;
+    pokedex.push_back(Pokemon("Misigno",{TipoPokemon::VENENO},999));
     while(getline(pokeCSV,linea)){
-        stringstream ss(linea);
         cout<< linea <<endl;
-
+        
+        // Convertir a un stream de cadena
+        stringstream ss(linea);
+        
+        // Crear lista temporal para las columnas
+        vector<string> listaColumnas;
+        
+        // Extraer un valor y guardar en la lista
         string valor;
-
-        vector<string> fila;
-        while(getline(ss,columna,',')){
-            fila.push_back(valor);
+        while(getline(ss,valor,',')){
+            listaColumnas.push_back(valor);
         }
 
-        Pokemon p(
-            columnas.at(Columnas::NOMBRE),
-            {TipoPokemon::AGUA}
-
-        );
-
-
-        pokedex.push_back(p);
-
-        
+        try
+        {
+            // Crear el pokemon
+            Pokemon p(
+                listaColumnas.at(Columnas::NOMBRE),
+                {TipoPokemon::AGUA},
+                stoi(listaColumnas.at(Columnas::ETAPA)));
+            // Agregar el pokemon al pokedex
+            pokedex.push_back(p);
+        }
+        catch(const std::exception& e)
+        {
+            std::cout << e.what() << '\n';
+        }
     }
 
-    cout<<"pokemons cargados al pokedex = "<<pokedex.size()<<endl;
-
-    cout<<"El ppokemon 5 es: "<<pokedex.at(5).GetNombre()<<endl;
-
+    cout<<"Pokemons cargados al pokedex = "<<pokedex.size()<<endl;
+    cout<<"El pokemon 5 es :"<<pokedex.at(5).GetNombre()<<endl;
+    
 
     return EXIT_SUCCESS;
-
 }
